@@ -90,6 +90,29 @@ Window {
                 color: parent.down ? "#f7e425" : "#0889a6";
                 radius: 30
             }
+
+            onClicked: function Function() {
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                var count1 = 0;
+                var count2 = 0;
+
+                for(let i = 0; i < calculation_line.text.length; ++i)
+                {
+                    let parenthesis = calculation_line.text[i];
+                    if(parenthesis === "(") { count1++}
+                    else if(parenthesis === ")") { count2++ }
+                }
+
+                if(symbol !== "+" && symbol !== "-" && symbol !== "*"
+                        && symbol !== "/" && symbol !== "" && symbol1 !== "("
+                        && count1 > count2) { calculation_line.text += ")"; }
+                else if((symbol1 !== ")")  (symbol === "+" || symbol === "-" || symbol === "*"
+                        || symbol === "/"))
+                {
+                    calculation_line.text += "(";
+                }
+            }
         }
 
         RoundButton {
@@ -102,6 +125,45 @@ Window {
                 implicitWidth: 60
                 color: parent.down ? "#f7e425" : "#0889a6";
                 radius: 30
+            }
+
+            onClicked: function Function() {
+                var check1 = calculation_line.text.lastIndexOf(" + ");
+                var check2 = calculation_line.text.lastIndexOf(" - ");
+                var check3 = calculation_line.text.lastIndexOf(" * ");
+                var check4 = calculation_line.text.lastIndexOf(" / ");
+                var my_arr;
+                var num;
+                var minus_num;
+
+                if(check1 > check2 && check1 > check3 && check1 > check4)
+                {
+                    my_arr = calculation_line.text.split(" + ");
+                    num = my_arr[my_arr.length - 1];
+                    minus_num = num.padStart(num.length + 1, "-");
+                    calculation_line.text.replace(num, minus_num);
+                }
+                else if(check2 > check3 && check2 > check4)
+                {
+                    my_arr = calculation_line.text.split(" - ");
+                    num = my_arr[my_arr.length - 1];
+                    minus_num = num.padStart(num.length + 1, "-");
+                    calculation_line.text.replace(num, minus_num);
+                }
+                else if(check3 > check4)
+                {
+                    my_arr = calculation_line.text.split(" * ");
+                    num = my_arr[my_arr.length - 1];
+                    minus_num = num.padStart(num.length + 1, "-");
+                    calculation_line.text.replace(num, minus_num);
+                }
+                else
+                {
+                    my_arr = calculation_line.text.split(" / ");
+                    num = my_arr[my_arr.length - 1];
+                    minus_num = num.padStart(num.length + 1, "-");
+                    calculation_line.text.replace(num, minus_num);
+                }
             }
         }
 
@@ -130,7 +192,13 @@ Window {
                 radius: 30
             }
 
-            onClicked: calculation_line.text += " / ";
+            onClicked: function Function() {
+                var symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/")
+                {
+                    calculation_line.text += " / ";
+                }
+            }
         }
 
         RoundButton {
@@ -204,7 +272,13 @@ Window {
                 radius: 30
             }
 
-            onClicked: calculation_line.text += " * ";
+            onClicked: function Function() {
+                var symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/")
+                {
+                    calculation_line.text += " * ";
+                }
+            }
         }
 
         RoundButton {
@@ -279,7 +353,13 @@ Window {
                 radius: 30
             }
 
-            onClicked: calculation_line.text += " - ";
+            onClicked: function Function() {
+                var symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/")
+                {
+                    calculation_line.text += " - ";
+                }
+            }
         }
 
         RoundButton {
@@ -354,7 +434,13 @@ Window {
                 radius: 30
             }
 
-            onClicked: calculation_line.text += " + ";
+            onClicked: function Function() {
+                var symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/")
+                {
+                    calculation_line.text += " + ";
+                }
+            }
         }
 
         RoundButton {
