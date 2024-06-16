@@ -105,10 +105,10 @@ Window {
                 }
 
                 if(symbol !== "+" && symbol !== "-" && symbol !== "*"
-                        && symbol !== "/" && symbol !== "" && symbol1 !== "("
+                        && symbol !== "/" && symbol !== "" && symbol1 !== "(" && symbol !== "%"
                         && count1 > count2) { calculation_line.text += ")"; }
-                else if((symbol1 !== ")")  (symbol === "+" || symbol === "-" || symbol === "*"
-                        || symbol === "/"))
+                else if((symbol === "+" || symbol === "-" || symbol === "*" || symbol === "/"
+                        || symbol1 === "(") || (calculation_line.text.length === 0))
                 {
                     calculation_line.text += "(";
                 }
@@ -128,41 +128,56 @@ Window {
             }
 
             onClicked: function Function() {
-                var check1 = calculation_line.text.lastIndexOf(" + ");
-                var check2 = calculation_line.text.lastIndexOf(" - ");
-                var check3 = calculation_line.text.lastIndexOf(" * ");
-                var check4 = calculation_line.text.lastIndexOf(" / ");
-                var my_arr;
-                var num;
-                var minus_num;
+                for(let i = calculation_line.text.length - 1; i >= 0; --i)
+                {
+                    var count1 = 0;
+                    var count2 = 0;
 
-                if(check1 > check2 && check1 > check3 && check1 > check4)
-                {
-                    my_arr = calculation_line.text.split(" + ");
-                    num = my_arr[my_arr.length - 1];
-                    minus_num = num.padStart(num.length + 1, "-");
-                    calculation_line.text.replace(num, minus_num);
-                }
-                else if(check2 > check3 && check2 > check4)
-                {
-                    my_arr = calculation_line.text.split(" - ");
-                    num = my_arr[my_arr.length - 1];
-                    minus_num = num.padStart(num.length + 1, "-");
-                    calculation_line.text.replace(num, minus_num);
-                }
-                else if(check3 > check4)
-                {
-                    my_arr = calculation_line.text.split(" * ");
-                    num = my_arr[my_arr.length - 1];
-                    minus_num = num.padStart(num.length + 1, "-");
-                    calculation_line.text.replace(num, minus_num);
-                }
-                else
-                {
-                    my_arr = calculation_line.text.split(" / ");
-                    num = my_arr[my_arr.length - 1];
-                    minus_num = num.padStart(num.length + 1, "-");
-                    calculation_line.text.replace(num, minus_num);
+                    for(let i = 0; i < calculation_line.text.length; ++i)
+                    {
+                        let parenthesis = calculation_line.text[i];
+                        if(parenthesis === "(") { count1++}
+                        else if(parenthesis === ")") { count2++ }
+                    }
+
+                    var symbol = calculation_line.text[i];
+                    var symbol1 = calculation_line.text[i - 1];
+                    if(symbol === "*" || symbol === "+" || symbol === "-" || symbol === "/")
+                    {
+                        if(symbol1 !== "(")
+                        {
+                            let oper = calculation_line.text.slice(i + 2, calculation_line.text.length);
+                            let str = calculation_line.text.slice(0, i + 2);
+                            let length = oper.length;
+                            let minus_oper = oper.padStart(length + 2, "(-");
+                            str += minus_oper;
+                            calculation_line.text = str;
+                            break;
+                        }
+                        else if(count1 > count2)
+                        {
+                            let oper = calculation_line.text.slice(i - 1, calculation_line.text.length);
+                            let str = calculation_line.text.slice(0, i - 1);
+                            let length = oper.length;
+                            let plus_oper = oper.slice(2, length);
+                            str += plus_oper;
+                            calculation_line.text = str;
+                            break;
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    else if(i == 0)
+                    {
+                        let oper = calculation_line.text.slice(0, calculation_line.text.length);
+                        let str = "";
+                        let minus_oper = oper.padStart(calculation_line.text.length + 2, "(-");
+                        str += minus_oper;
+                        calculation_line.text = str;
+                        break;
+                    }
                 }
             }
         }
@@ -177,6 +192,16 @@ Window {
                 implicitWidth: 60
                 color: parent.down ? "#f7e425" : "#0889a6";
                 radius: 30
+            }
+
+            onClicked: function Function() {
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/"
+                        && symbol1 !== "(" && symbol !== "%" && calculation_line.text.length !== 0)
+                {
+                    calculation_line.text += "% ";
+                }
             }
         }
 
@@ -193,8 +218,10 @@ Window {
             }
 
             onClicked: function Function() {
-                var symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
-                if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/")
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/"
+                        && symbol1 !== "(" && calculation_line.text.length !== 0)
                 {
                     calculation_line.text += " / ";
                 }
@@ -218,7 +245,14 @@ Window {
                 radius: 30
             }
 
-            onClicked: calculation_line.text += "7";
+            onClicked: function Function() {
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol1 !== ")" && symbol !== "%")
+                {
+                    calculation_line.text += "7";
+                }
+            }
         }
 
         RoundButton {
@@ -238,7 +272,13 @@ Window {
                 radius: 30
             }
 
-            onClicked: calculation_line.text += "8";
+            onClicked: function Function() {
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol1 !== ")" && symbol1 !== "%")
+                {
+                    calculation_line.text += "8";
+                }
+            }
         }
 
         RoundButton {
@@ -257,7 +297,15 @@ Window {
                 color: parent.down ? "#04BFAD" : "#B0D1D8";
                 radius: 30
             }
-            onClicked: calculation_line.text += "9";
+
+            onClicked: function Function() {
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol1 !== ")" && symbol !== "%")
+                {
+                    calculation_line.text += "9";
+                }
+            }
         }
 
         RoundButton {
@@ -273,8 +321,10 @@ Window {
             }
 
             onClicked: function Function() {
-                var symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
-                if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/")
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/"
+                        && symbol1 !== "(" && calculation_line.text.length !== 0)
                 {
                     calculation_line.text += " * ";
                 }
@@ -298,7 +348,14 @@ Window {
                 radius: 30
             }
 
-            onClicked: calculation_line.text += "4";
+            onClicked: function Function() {
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol1 !== ")" && symbol !== "%")
+                {
+                    calculation_line.text += "4";
+                }
+            }
         }
 
         RoundButton {
@@ -318,7 +375,14 @@ Window {
                 radius: 30
             }
 
-            onClicked: calculation_line.text += "5";
+            onClicked: function Function() {
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol1 !== ")" && symbol !== "%")
+                {
+                    calculation_line.text += "5";
+                }
+            }
         }
 
         RoundButton {
@@ -338,7 +402,14 @@ Window {
                 radius: 30
             }
 
-            onClicked: calculation_line.text += "6";
+            onClicked: function Function() {
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol1 !== ")" && symbol !== "%")
+                {
+                    calculation_line.text += "6";
+                }
+            }
         }
 
         RoundButton {
@@ -354,8 +425,10 @@ Window {
             }
 
             onClicked: function Function() {
-                var symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
-                if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/")
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/"
+                        && symbol1 !== "(" && calculation_line.text.length !== 0)
                 {
                     calculation_line.text += " - ";
                 }
@@ -379,7 +452,14 @@ Window {
                 radius: 30
             }
 
-            onClicked: calculation_line.text += "1";
+            onClicked: function Function() {
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol1 !== ")" && symbol !== "%")
+                {
+                    calculation_line.text += "1";
+                }
+            }
         }
 
         RoundButton {
@@ -399,7 +479,14 @@ Window {
                 radius: 30
             }
 
-            onClicked: calculation_line.text += "2";
+            onClicked: function Function() {
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol1 !== ")" && symbol !== "%")
+                {
+                    calculation_line.text += "2";
+                }
+            }
         }
 
         RoundButton {
@@ -419,7 +506,14 @@ Window {
                 radius: 30
             }
 
-            onClicked: calculation_line.text += "3";
+            onClicked: function Function() {
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol1 !== ")" && symbol !== "%")
+                {
+                    calculation_line.text += "3";
+                }
+            }
         }
 
         RoundButton {
@@ -435,8 +529,10 @@ Window {
             }
 
             onClicked: function Function() {
-                var symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
-                if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/")
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/"
+                        && symbol1 !== "(" && calculation_line.text.length !== 0)
                 {
                     calculation_line.text += " + ";
                 }
@@ -455,7 +551,10 @@ Window {
                 radius: 30
             }
 
-            onClicked: calculation_line.text = "";
+            onClicked: function Function(){
+                result.text = "0";
+                calculation_line.text = "";
+            }
         }
 
         RoundButton {
@@ -475,7 +574,14 @@ Window {
                 radius: 30
             }
 
-            onClicked: calculation_line.text += "0";
+            onClicked: function Function() {
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol1 !== ")" && symbol !== "%")
+                {
+                    calculation_line.text += "0";
+                }
+            }
         }
 
         RoundButton {
@@ -506,6 +612,64 @@ Window {
                 implicitWidth: 60
                 color: parent.down ? "#f7e425" : "#0889a6";
                 radius: 30
+            }
+
+            onClicked: function Function() {
+                for(let i = calculation_line.text.length - 1; i >= 0; --i)
+                {
+                    let symbol = calculation_line.text[i];
+                    if(symbol === "%")
+                    {
+                        for(let j = i; j >= 0; --j)
+                        {
+                            let symbol1 = calculation_line.text[j];
+
+                            switch(symbol1)
+                            {
+                            case "+":
+                            {
+                                let number = calculation_line.text.slice(j + 2, i);
+                                let number_percent = calculation_line.text.slice(j + 2, i + 2);
+                                var num = eval(number / 100 + 1);
+                                let str = calculation_line.text.replace(number_percent, num);
+                                str = str.replace("+", "*");
+                                calculation_line.text = str;
+                                break;
+                            }
+                            case "-":
+                            {
+                                let number = calculation_line.text.slice(j + 2, i);
+                                let number_percent = calculation_line.text.slice(j + 2, i + 2);
+                                var num = eval(number / 100);
+                                let str = calculation_line.text.replace(number_percent, num);
+                                str = str.replace("-", "*");
+                                calculation_line.text = str;
+                                break;
+                            }
+                            case "*":
+                            {
+                                let number = calculation_line.text.slice(j + 2, i);
+                                let number_percent = calculation_line.text.slice(j + 2, i + 2);
+                                var num = eval(number / 100);
+                                let str = calculation_line.text.replace(number_percent, num);
+                                calculation_line.text = str;
+                                break;
+                            }
+                            case "/":
+                            {
+                                let number = calculation_line.text.slice(j + 2, i);
+                                let number_percent = calculation_line.text.slice(j + 2, i + 2);
+                                var num = eval(number / 100);
+                                let str = calculation_line.text.replace(number_percent, num);
+                                calculation_line.text = str;
+                                break;
+                            }
+                            }
+                        }
+                    }
+                }
+
+                result.text = eval(calculation_line.text);
             }
         }
     }
