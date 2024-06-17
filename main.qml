@@ -615,7 +615,88 @@ Window {
             }
 
             onClicked: function Function() {
-                for(let i = calculation_line.text.length - 1; i >= 0; --i)
+                var arr = [];
+                var operand = "";
+                for(let v = 0; v < calculation_line.text.length; ++v)
+                {
+                    let symbol2 = calculation_line.text[v];
+
+                    switch(symbol2)
+                    {
+                    case "+":
+                    {
+                        if(operand !== "")
+                        {
+                            arr.push(operand);
+                            arr.push("+");
+                            operand = "";
+                        }
+                        else
+                            arr.push("+")
+                        break;
+                    }
+                    case "-":
+                    {
+                        if(operand !== "")
+                        {
+                            arr.push(operand);
+                            arr.push("-");
+                            operand = "";
+                        }
+                        else
+                            arr.push("-");
+                        break;
+                    }
+                    case "/":
+                    {
+                        arr.push(operand);
+                        arr.push("/");
+                        operand = "";
+                        break;
+                    }
+                    case "*":
+                    {
+                        arr.push(operand);
+                        arr.push("*");
+                        operand = "";
+                        break
+                    }
+                    case "(":
+                    {
+                        arr.push("(");
+                        break;
+                    }
+                    case ")":
+                    {
+                        arr.push(operand);
+                        arr.push(")");
+                        operand = "";
+                        break;
+                    }
+                    case " ":
+                    {
+                        break;
+                    }
+                    default:
+                        operand += symbol2;
+                        break;
+                    }
+
+                    if(v === calculation_line.text.length - 1)
+                    {
+                        arr.push(operand);
+                    }
+                }
+
+                let str = arr.toString();
+                for(let i = 0; i < str.length; ++i)
+                {
+                    str = str.replace(",", "");
+                }
+
+                console.log(str.replace(",",""));
+
+                /*for(let i = calculation_line.text.length - 1; i >= 0; --i)
                 {
                     let symbol = calculation_line.text[i];
                     if(symbol === "%")
@@ -633,14 +714,14 @@ Window {
                                 var num = eval(number / 100 + 1);
                                 let str = calculation_line.text.replace(number_percent, num);
                                 str = str.replace("+", "*");
-                                calculation_line.text = str;
+                                result.text = eval(str);
                                 break;
                             }
                             case "-":
                             {
                                 let number = calculation_line.text.slice(j + 2, i);
                                 let number_percent = calculation_line.text.slice(j + 2, i + 2);
-                                var num = eval(number / 100);
+                                var num = eval(1 - (number / 100));
                                 let str = calculation_line.text.replace(number_percent, num);
                                 str = str.replace("-", "*");
                                 calculation_line.text = str;
@@ -667,9 +748,11 @@ Window {
                             }
                         }
                     }
-                }
-
-                result.text = eval(calculation_line.text);
+                    else if(i === 0)
+                    {
+                        result.text = eval(calculation_line.text);
+                    }
+                }*/
             }
         }
     }
