@@ -688,71 +688,96 @@ Window {
                     }
                 }
 
-                let str = arr.toString();
+                var str = arr.toString();
                 for(let i = 0; i < str.length; ++i)
                 {
                     str = str.replace(",", "");
                 }
 
-                console.log(str.replace(",",""));
-
-                /*for(let i = calculation_line.text.length - 1; i >= 0; --i)
+                if(arr.includes("("))
                 {
-                    let symbol = calculation_line.text[i];
-                    if(symbol === "%")
+                    for(let a = 0; a < arr.length; ++a)
                     {
-                        for(let j = i; j >= 0; --j)
-                        {
-                            let symbol1 = calculation_line.text[j];
+                        let brace = arr[a];
 
-                            switch(symbol1)
+                        if(brace === "(")
+                        {
+                            for(let b = a; b < arr.length; ++b)
                             {
-                            case "+":
-                            {
-                                let number = calculation_line.text.slice(j + 2, i);
-                                let number_percent = calculation_line.text.slice(j + 2, i + 2);
-                                var num = eval(number / 100 + 1);
-                                let str = calculation_line.text.replace(number_percent, num);
-                                str = str.replace("+", "*");
-                                result.text = eval(str);
-                                break;
-                            }
-                            case "-":
-                            {
-                                let number = calculation_line.text.slice(j + 2, i);
-                                let number_percent = calculation_line.text.slice(j + 2, i + 2);
-                                var num = eval(1 - (number / 100));
-                                let str = calculation_line.text.replace(number_percent, num);
-                                str = str.replace("-", "*");
-                                calculation_line.text = str;
-                                break;
-                            }
-                            case "*":
-                            {
-                                let number = calculation_line.text.slice(j + 2, i);
-                                let number_percent = calculation_line.text.slice(j + 2, i + 2);
-                                var num = eval(number / 100);
-                                let str = calculation_line.text.replace(number_percent, num);
-                                calculation_line.text = str;
-                                break;
-                            }
-                            case "/":
-                            {
-                                let number = calculation_line.text.slice(j + 2, i);
-                                let number_percent = calculation_line.text.slice(j + 2, i + 2);
-                                var num = eval(number / 100);
-                                let str = calculation_line.text.replace(number_percent, num);
-                                calculation_line.text = str;
-                                break;
-                            }
+                                let closeBrace = arr[b];
+
+                                if(closeBrace === ")")
+                                {
+                                    var equal = "";
+                                    while(a <= b)
+                                    {
+                                        equal += arr[a];
+                                        ++a;
+                                    }
+
+                                    let calculate = eval(equal);
+
+                                    if(calculate[0] === "-")
+                                    {
+                                        let temporary = calculate.padStart(calculate.length + 1, "(");
+                                        calculate = temporary.padEnd(temporary.length + 1, ")");
+                                    }
+
+                                    str = str.replace(equal, eval(equal));
+
+                                    console.log(str);
+
+                                    break;
+                                }
                             }
                         }
                     }
-                    else if(i === 0)
+                }
+
+                if(str.includes("%"))
+                {
+                    for(let i = 0; i < str.length; ++i)
                     {
-                        result.text = eval(calculation_line.text);
+                        let symbol = str[i];
+
+                        if(symbol === "%")
+                        {
+                            for(let j = i; i > 0; --i)
+                            {
+                                symbol = str[j];
+
+                                switch(symbol)
+                                {
+                                case "+":
+                                {
+                                    let num = "";
+
+                                    for(let a = j; a < i; ++a)
+                                    {
+                                        num += str[a];
+                                    }
+
+                                    num = num.replace("+", "*");
+
+                                    console.log(num);
+                                }
+                                case "-":
+                                {
+
+                                }
+                                case "*":
+                                {
+
+                                }
+                                case "/":
+                                {
+
+                                }
+                                }
+                            }
+                        }
                     }
-                }*/
+                }
             }
         }
     }
