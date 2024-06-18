@@ -742,7 +742,7 @@ Window {
 
                         if(symbol === "%")
                         {
-                            for(let j = i; i > 0; --i)
+                            for(let j = i; j > 0; --j)
                             {
                                 symbol = str[j];
 
@@ -752,14 +752,19 @@ Window {
                                 {
                                     let num = "";
 
-                                    for(let a = j; a < i; ++a)
+                                    for(let a = j; a <= i; ++a)
                                     {
                                         num += str[a];
                                     }
 
-                                    num = num.replace("+", "*");
+                                    let old_num = num;
+                                    let number = eval(num.slice(1, num.length - 1) / 100 + 1);
+                                    num = num.replace(num.slice(1, num.length - 1), number);
+                                    num = num.slice(0, num.length - 1);
+                                    num = num.replace("+", "*")
+                                    str = str.replace(old_num, num)
 
-                                    console.log(num);
+                                    console.log(str);
                                 }
                                 case "-":
                                 {
