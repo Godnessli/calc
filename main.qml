@@ -10,6 +10,8 @@ Window {
     color: "#024873"
     title: qsTr("Calculator")
 
+    property string current_value: "";
+
     Rectangle {
         id: input_area
         color: "#04bfad"
@@ -92,6 +94,7 @@ Window {
             }
 
             onClicked: function Function() {
+                current_value = "";
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
                 var count1 = 0;
@@ -105,11 +108,12 @@ Window {
                 }
 
                 if(symbol !== "+" && symbol !== "-" && symbol !== "*"
-                        && symbol !== "/" && symbol !== "" && symbol1 !== "(" && symbol !== "%"
-                        && count1 > count2) { calculation_line.text += ")"; }
+                        && symbol !== "/" && symbol !== "" && symbol1 !== "("
+                        && count1 > count2) { calculation_line.text += ")"; current_value = ""; }
                 else if((symbol === "+" || symbol === "-" || symbol === "*" || symbol === "/"
                         || symbol1 === "(") || (calculation_line.text.length === 0))
                 {
+                    current_value = "";
                     calculation_line.text += "(";
                 }
             }
@@ -198,9 +202,10 @@ Window {
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
                 if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/"
-                        && symbol1 !== "(" && symbol !== "%" && calculation_line.text.length !== 0)
+                        && symbol1 !== "(" && symbol1 !== "%" && calculation_line.text !== "0" && calculation_line.text.length !== 0)
                 {
-                    calculation_line.text += "% ";
+                    current_value = "";
+                    calculation_line.text += "%";
                 }
             }
         }
@@ -223,6 +228,7 @@ Window {
                 if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/"
                         && symbol1 !== "(" && calculation_line.text.length !== 0)
                 {
+                    current_value = "";
                     calculation_line.text += " / ";
                 }
             }
@@ -248,9 +254,16 @@ Window {
             onClicked: function Function() {
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
-                if(symbol1 !== ")" && symbol !== "%")
+                if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
+                    current_value += "7";
                     calculation_line.text += "7";
+                }
+                else if(current_value === "0")
+                {
+                    calculation_line.text = calculation_line.text.slice(0, calculation_line.text.length - 1)
+                    calculation_line.text += "7";
+                    current_value = "7";
                 }
             }
         }
@@ -274,9 +287,15 @@ Window {
 
             onClicked: function Function() {
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
-                if(symbol1 !== ")" && symbol1 !== "%")
+                if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
                     calculation_line.text += "8";
+                }
+                else if(current_value === "0")
+                {
+                    calculation_line.text = calculation_line.text.slice(0, calculation_line.text.length - 1)
+                    calculation_line.text += "8";
+                    current_value = "8";
                 }
             }
         }
@@ -301,9 +320,15 @@ Window {
             onClicked: function Function() {
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
-                if(symbol1 !== ")" && symbol !== "%")
+                if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
                     calculation_line.text += "9";
+                }
+                else if(current_value === "0")
+                {
+                    calculation_line.text = calculation_line.text.slice(0, calculation_line.text.length - 1)
+                    calculation_line.text += "9";
+                    current_value = "9";
                 }
             }
         }
@@ -326,6 +351,7 @@ Window {
                 if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/"
                         && symbol1 !== "(" && calculation_line.text.length !== 0)
                 {
+                    current_value = "";
                     calculation_line.text += " * ";
                 }
             }
@@ -351,9 +377,15 @@ Window {
             onClicked: function Function() {
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
-                if(symbol1 !== ")" && symbol !== "%")
+                if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
                     calculation_line.text += "4";
+                }
+                else if(current_value === "0")
+                {
+                    calculation_line.text = calculation_line.text.slice(0, calculation_line.text.length - 1)
+                    calculation_line.text += "4";
+                    current_value = "4";
                 }
             }
         }
@@ -378,9 +410,15 @@ Window {
             onClicked: function Function() {
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
-                if(symbol1 !== ")" && symbol !== "%")
+                if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
                     calculation_line.text += "5";
+                }
+                else if(current_value === "0")
+                {
+                    calculation_line.text = calculation_line.text.slice(0, calculation_line.text.length - 1)
+                    calculation_line.text += "5";
+                    current_value = "5";
                 }
             }
         }
@@ -405,9 +443,15 @@ Window {
             onClicked: function Function() {
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
-                if(symbol1 !== ")" && symbol !== "%")
+                if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
                     calculation_line.text += "6";
+                }
+                else if(current_value === "0")
+                {
+                    calculation_line.text = calculation_line.text.slice(0, calculation_line.text.length - 1)
+                    calculation_line.text += "6";
+                    current_value = "6";
                 }
             }
         }
@@ -430,6 +474,7 @@ Window {
                 if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/"
                         && symbol1 !== "(" && calculation_line.text.length !== 0)
                 {
+                    current_value = "";
                     calculation_line.text += " - ";
                 }
             }
@@ -455,9 +500,15 @@ Window {
             onClicked: function Function() {
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
-                if(symbol1 !== ")" && symbol !== "%")
+                if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
                     calculation_line.text += "1";
+                }
+                else if(current_value === "0")
+                {
+                    calculation_line.text = calculation_line.text.slice(0, calculation_line.text.length - 1)
+                    calculation_line.text += "1";
+                    current_value = "1";
                 }
             }
         }
@@ -482,9 +533,15 @@ Window {
             onClicked: function Function() {
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
-                if(symbol1 !== ")" && symbol !== "%")
+                if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
                     calculation_line.text += "2";
+                }
+                else if(current_value === "0")
+                {
+                    calculation_line.text = calculation_line.text.slice(0, calculation_line.text.length - 1)
+                    calculation_line.text += "2";
+                    current_value = "2";
                 }
             }
         }
@@ -509,9 +566,15 @@ Window {
             onClicked: function Function() {
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
-                if(symbol1 !== ")" && symbol !== "%")
+                if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
                     calculation_line.text += "3";
+                }
+                else if(current_value === "0")
+                {
+                    calculation_line.text = calculation_line.text.slice(0, calculation_line.text.length - 1)
+                    calculation_line.text += "3";
+                    current_value = "3";
                 }
             }
         }
@@ -534,6 +597,7 @@ Window {
                 if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/"
                         && symbol1 !== "(" && calculation_line.text.length !== 0)
                 {
+                    current_value = "";
                     calculation_line.text += " + ";
                 }
             }
@@ -554,6 +618,7 @@ Window {
             onClicked: function Function(){
                 result.text = "0";
                 calculation_line.text = "";
+                current_value = "";
             }
         }
 
@@ -577,8 +642,9 @@ Window {
             onClicked: function Function() {
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
-                if(symbol1 !== ")" && symbol !== "%")
+                if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
+                    current_value += "0";
                     calculation_line.text += "0";
                 }
             }
@@ -649,16 +715,26 @@ Window {
                     }
                     case "/":
                     {
-                        arr.push(operand);
-                        arr.push("/");
-                        operand = "";
+                        if(operand !== "")
+                        {
+                            arr.push(operand);
+                            arr.push("/");
+                            operand = "";
+                        }
+                        else
+                            arr.push("/");
                         break;
                     }
                     case "*":
                     {
-                        arr.push(operand);
-                        arr.push("*");
-                        operand = "";
+                        if(operand !== "")
+                        {
+                            arr.push(operand);
+                            arr.push("*");
+                            operand = "";
+                        }
+                        else
+                            arr.push("*");
                         break
                     }
                     case "(":
@@ -688,101 +764,64 @@ Window {
                     }
                 }
 
+                for(let z = 0; z < arr.length; ++z)
+                {
+                    if(arr[z].includes("%"))
+                    {
+                        for(let q = z; q >= 0; --q)
+                        {
+                            let r = 0;
+                            let braces_count = 0;
+                            if(arr[q] === "(" && braces_count === 0)
+                            {
+                                let calc_string = "";
+                                for(r = q; r < z - 1; ++r)
+                                {
+                                    calc_string += arr[r];
+                                }
+
+                                if(arr[z - 1] === "(")
+                                {
+                                    for(r = 0; r < z - 2; ++r)
+                                    {
+                                        calc_string += arr[r];
+                                    }
+                                }
+
+                                if(!calc_string.includes(")"))
+                                {
+                                    calc_string = calc_string.replace("(", "");
+                                }
+
+                                let left_operand = eval(calc_string);
+                                arr[z] = left_operand * (arr[z].slice(0, arr[z].length - 1) / 100);
+
+                                console.log(arr[z - 1]);
+                                console.log(arr);
+                                break;
+                            }
+                            else if(arr[q] === ")" && r !== z)
+                            {
+                                ++braces_count;
+
+                                console.log(arr);
+                            }
+                            else if(arr[q] === "(" && braces_count > 0)
+                            {
+                                --braces_count;
+                            }
+                        }
+                    }
+                }
+
                 var str = arr.toString();
                 for(let i = 0; i < str.length; ++i)
                 {
                     str = str.replace(",", "");
                 }
 
-                if(arr.includes("("))
-                {
-                    for(let a = 0; a < arr.length; ++a)
-                    {
-                        let brace = arr[a];
-
-                        if(brace === "(")
-                        {
-                            for(let b = a; b < arr.length; ++b)
-                            {
-                                let closeBrace = arr[b];
-
-                                if(closeBrace === ")")
-                                {
-                                    var equal = "";
-                                    while(a <= b)
-                                    {
-                                        equal += arr[a];
-                                        ++a;
-                                    }
-
-                                    let calculate = eval(equal);
-
-                                    if(calculate[0] === "-")
-                                    {
-                                        let temporary = calculate.padStart(calculate.length + 1, "(");
-                                        calculate = temporary.padEnd(temporary.length + 1, ")");
-                                    }
-
-                                    str = str.replace(equal, eval(equal));
-
-                                    console.log(str);
-
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                if(str.includes("%"))
-                {
-                    for(let i = 0; i < str.length; ++i)
-                    {
-                        let symbol = str[i];
-
-                        if(symbol === "%")
-                        {
-                            for(let j = i; j > 0; --j)
-                            {
-                                symbol = str[j];
-
-                                switch(symbol)
-                                {
-                                case "+":
-                                {
-                                    let num = "";
-
-                                    for(let a = j; a <= i; ++a)
-                                    {
-                                        num += str[a];
-                                    }
-
-                                    let old_num = num;
-                                    let number = eval(num.slice(1, num.length - 1) / 100 + 1);
-                                    num = num.replace(num.slice(1, num.length - 1), number);
-                                    num = num.slice(0, num.length - 1);
-                                    num = num.replace("+", "*")
-                                    str = str.replace(old_num, num)
-
-                                    console.log(str);
-                                }
-                                case "-":
-                                {
-
-                                }
-                                case "*":
-                                {
-
-                                }
-                                case "/":
-                                {
-
-                                }
-                                }
-                            }
-                        }
-                    }
-                }
+                console.log(arr);
+                result.text = eval(str);
             }
         }
     }
