@@ -1,4 +1,6 @@
 import QtQuick
+import QtQuick.Dialogs
+import QtQuick.Window
 import QtQuick.Layouts
 import QtQuick.Controls
 
@@ -11,6 +13,7 @@ Window {
     title: qsTr("Calculator")
 
     property string current_value: "";
+    property string current_sequence: "";
 
     Rectangle {
         id: input_area
@@ -109,9 +112,12 @@ Window {
 
                 if(symbol !== "+" && symbol !== "-" && symbol !== "*"
                         && symbol !== "/" && symbol !== "" && symbol1 !== "("
-                        && count1 > count2) { calculation_line.text += ")"; current_value = ""; }
+                        && count1 > count2 && symbol1 !== ".")
+                {
+                    calculation_line.text += ")"; current_value = "";
+                }
                 else if((symbol === "+" || symbol === "-" || symbol === "*" || symbol === "/"
-                        || symbol1 === "(") || (calculation_line.text.length === 0))
+                        || symbol1 === "(") || (calculation_line.text.length === 0) && symbol1 !== ".")
                 {
                     current_value = "";
                     calculation_line.text += "(";
@@ -202,7 +208,7 @@ Window {
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
                 if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/"
-                        && symbol1 !== "(" && symbol1 !== "%" && calculation_line.text !== "0" && calculation_line.text.length !== 0)
+                        && symbol1 !== "(" && symbol1 !== "%" && calculation_line.text !== "0" && calculation_line.text.length !== 0 && symbol1 !== ".")
                 {
                     current_value = "";
                     calculation_line.text += "%";
@@ -226,7 +232,7 @@ Window {
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
                 if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/"
-                        && symbol1 !== "(" && calculation_line.text.length !== 0)
+                        && symbol1 !== "(" && calculation_line.text.length !== 0 && symbol1 !== ".")
                 {
                     current_value = "";
                     calculation_line.text += " / ";
@@ -289,6 +295,7 @@ Window {
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
                 if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
+                    current_value += "8";
                     calculation_line.text += "8";
                 }
                 else if(current_value === "0")
@@ -322,6 +329,7 @@ Window {
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
                 if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
+                    current_value += "9";
                     calculation_line.text += "9";
                 }
                 else if(current_value === "0")
@@ -349,7 +357,7 @@ Window {
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
                 if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/"
-                        && symbol1 !== "(" && calculation_line.text.length !== 0)
+                        && symbol1 !== "(" && calculation_line.text.length !== 0 && symbol1 !== ".")
                 {
                     current_value = "";
                     calculation_line.text += " * ";
@@ -379,6 +387,7 @@ Window {
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
                 if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
+                    current_value += "4";
                     calculation_line.text += "4";
                 }
                 else if(current_value === "0")
@@ -412,6 +421,7 @@ Window {
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
                 if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
+                    current_value += "5";
                     calculation_line.text += "5";
                 }
                 else if(current_value === "0")
@@ -445,6 +455,7 @@ Window {
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
                 if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
+                    current_value += "6";
                     calculation_line.text += "6";
                 }
                 else if(current_value === "0")
@@ -472,7 +483,7 @@ Window {
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
                 if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/"
-                        && symbol1 !== "(" && calculation_line.text.length !== 0)
+                        && symbol1 !== "(" && calculation_line.text.length !== 0 && symbol1 !== ".")
                 {
                     current_value = "";
                     calculation_line.text += " - ";
@@ -498,10 +509,17 @@ Window {
             }
 
             onClicked: function Function() {
+                current_sequence += "1";
+                if(current_sequence.length === 4)
+                {
+                    current_sequence = "1";
+                }
+
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
                 if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
+                    current_value += "1";
                     calculation_line.text += "1";
                 }
                 else if(current_value === "0")
@@ -531,10 +549,17 @@ Window {
             }
 
             onClicked: function Function() {
+                current_sequence += "2";
+                if(current_sequence.length === 4)
+                {
+                    current_sequence = "2";
+                }
+
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
                 if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
+                    current_value += "2";
                     calculation_line.text += "2";
                 }
                 else if(current_value === "0")
@@ -564,10 +589,17 @@ Window {
             }
 
             onClicked: function Function() {
+                current_sequence += "3";
+                if(current_sequence.length === 4)
+                {
+                    current_sequence = "3";
+                }
+
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
                 if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "0")
                 {
+                    current_value += "3";
                     calculation_line.text += "3";
                 }
                 else if(current_value === "0")
@@ -595,7 +627,7 @@ Window {
                 let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
                 let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
                 if(symbol !== "+" && symbol !== "-" && symbol !== "*" && symbol !== "/"
-                        && symbol1 !== "(" && calculation_line.text.length !== 0)
+                        && symbol1 !== "(" && calculation_line.text.length !== 0 && symbol1 !== ".")
                 {
                     current_value = "";
                     calculation_line.text += " + ";
@@ -616,6 +648,7 @@ Window {
             }
 
             onClicked: function Function(){
+                current_sequence = "";
                 result.text = "0";
                 calculation_line.text = "";
                 current_value = "";
@@ -666,9 +699,20 @@ Window {
                 color: parent.down ? "#04BFAD" : "#b0d1d8";
                 radius: 30
             }
+
+            onClicked: function Function() {
+                let symbol = calculation_line.text.charAt(calculation_line.text.length - 2);
+                let symbol1 = calculation_line.text.charAt(calculation_line.text.length - 1);
+                if(symbol1 !== ")" && symbol1 !== "%" && current_value !== "" && !current_value.includes("."))
+                {
+                    current_value += ".";
+                    calculation_line.text += ".";
+                }
+            }
         }
 
         RoundButton {
+            id: equal
             text: qsTr("=")
             font.family: "Open Sans Semibold"
             font.pixelSize: 24
@@ -680,7 +724,82 @@ Window {
                 radius: 30
             }
 
+            signal pressAndHold();
+
+            Timer {
+                id: longPress
+
+                interval: 4000;
+                repeat: false;
+                running: false;
+
+                onTriggered: {
+                    equal.pressAndHold();
+                }
+            }
+
+            onPressedChanged: {
+                if(pressed)
+                {
+                    longPress.running = true;
+                }
+                else
+                {
+                    longPress.running = false;
+                }
+            }
+
+            MessageDialog {
+                id: message
+                buttons: MessageDialog.Ok
+                text: "Поздравляю, вы нашли пасхальное яйцо)"
+            }
+
+            Timer {
+                id: sequence;
+
+                interval: 5000;
+                repeat: false;
+                running: false;
+
+                onTriggered: {
+                    if(current_sequence === "123")
+                    {
+                        message.open();
+                    }
+                    else
+                        current_sequence = "";
+                }
+            }
+
+            onPressAndHold: sequence.running = true;
+
             onClicked: function Function() {
+                var count1 = 0;
+                var count2 = 0;
+
+                for(let i = 0; i < calculation_line.text.length; ++i)
+                {
+                    let parenthesis = calculation_line.text[i];
+                    if(parenthesis === "(")
+                    {
+                        count1++;
+                    }
+                    else if(parenthesis === ")")
+                    {
+                        count2++;
+                    }
+                }
+
+                if(count1 > count2)
+                {
+                    while(count1 !== count2)
+                    {
+                        calculation_line.text += ")";
+                        count2++;
+                    }
+                }
+
                 var arr = [];
                 var operand = "";
                 for(let v = 0; v < calculation_line.text.length; ++v)
