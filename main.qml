@@ -752,7 +752,7 @@ Window {
             MessageDialog {
                 id: message
                 buttons: MessageDialog.Ok
-                text: "Поздравляю, вы нашли пасхальное яйцо)"
+                text: "Секретное меню"
             }
 
             Timer {
