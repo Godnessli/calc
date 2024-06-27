@@ -6,7 +6,8 @@ SOURCES += \
 resources.files = main.qml
 
 resources.prefix = /$${TARGET}
-RESOURCES += resources
+RESOURCES += resources \
+    res.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -21,4 +22,13 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS +=
 
-DISTFILES +=
+DISTFILES += \
+    OpenSans-VariableFont_wdth,wght.ttf \
+    icons/bkt.png \
+    icons/division.png \
+    icons/equal.png \
+    icons/minus.png \
+    icons/multiplication.png \
+    icons/percent.png \
+    icons/plus.png \
+    icons/plus_minus.png

@@ -1,5 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QDir>
+#include <QFontDatabase>
 
 int main(int argc, char *argv[])
 {

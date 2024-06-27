@@ -29,6 +29,7 @@ Window {
 
     Text {
         id: result;
+        font.weight: 600
         height: 60;
         z: 1;
         font.pixelSize: 50;
@@ -48,6 +49,7 @@ Window {
 
     Text {
         id: calculation_line
+        font.weight: 600
         height: 30;
         z: 1;
         font.pixelSize: 20;
@@ -84,11 +86,15 @@ Window {
             bottomMargin: 24
         }
 
-        RoundButton {
-            text: qsTr("()")
-            font.family: "Open Sans Semibold"
-            font.pixelSize: 24
+        FontLoader {
+            id: os
+            source: "OpenSans-VariableFont_wdth,wght.ttf"
+        }
 
+        RoundButton {
+            icon.source: "icons/bkt.png"
+            icon.height: 30
+            icon.width: 30
             background: Rectangle {
                 implicitHeight: 60
                 implicitWidth: 60
@@ -126,9 +132,9 @@ Window {
         }
 
         RoundButton {
-            text: qsTr("+/_")
-            font.family: "Open Sans Semibold"
-            font.pixelSize: 24
+            icon.source: "icons/plus_minus.png"
+            icon.height: 30
+            icon.width: 30
 
             background: Rectangle {
                 implicitHeight: 60
@@ -193,9 +199,9 @@ Window {
         }
 
         RoundButton {
-            text: qsTr("%")
-            font.family: "Open Sans Semibold"
-            font.pixelSize: 24
+            icon.source: "icons/percent.png"
+            icon.height: 30
+            icon.width: 30
 
             background: Rectangle {
                 implicitHeight: 60
@@ -217,9 +223,9 @@ Window {
         }
 
         RoundButton {
-            text: qsTr("/")
-            font.family: "Open Sans Semibold"
-            font.pixelSize: 24
+            icon.source: "icons/division.png"
+            icon.height: 30
+            icon.width: 30
 
             background: Rectangle {
                 implicitHeight: 60
@@ -244,6 +250,7 @@ Window {
             Text{
                 text: "7"
                 font.family: "Open Sans Semibold"
+                font.weight: 600
                 font.pixelSize: 24
                 color: parent.down ? "#ffffff" : "#024873"
                 anchors.verticalCenter: parent.verticalCenter
@@ -278,6 +285,7 @@ Window {
             Text{
                 text: "8"
                 font.family: "Open Sans Semibold"
+                font.weight: 600
                 font.pixelSize: 24
                 color: parent.down ? "#ffffff" : "#024873"
                 anchors.verticalCenter: parent.verticalCenter
@@ -311,6 +319,7 @@ Window {
             Text{
                 text: "9"
                 font.family: "Open Sans Semibold"
+                font.weight: 600
                 font.pixelSize: 24
                 color: parent.down ? "#ffffff" : "#024873"
                 anchors.verticalCenter: parent.verticalCenter
@@ -342,9 +351,9 @@ Window {
         }
 
         RoundButton {
-            text: qsTr("*")
-            font.family: "Open Sans Semibold"
-            font.pixelSize: 24
+            icon.source: "icons/multiplication.png"
+            icon.height: 30
+            icon.width: 30
 
             background: Rectangle {
                 implicitHeight: 60
@@ -468,9 +477,9 @@ Window {
         }
 
         RoundButton {
-            text: qsTr("-")
-            font.family: "Open Sans Semibold"
-            font.pixelSize: 24
+            icon.source: "icons/minus.png"
+            icon.height: 30
+            icon.width: 30
 
             background: Rectangle {
                 implicitHeight: 60
@@ -612,9 +621,9 @@ Window {
         }
 
         RoundButton {
-            text: qsTr("+")
-            font.family: "Open Sans Semibold"
-            font.pixelSize: 24
+            icon.source: "icons/plus.png"
+            icon.height: 30
+            icon.width: 30
 
             background: Rectangle {
                 implicitHeight: 60
@@ -713,9 +722,9 @@ Window {
 
         RoundButton {
             id: equal
-            text: qsTr("=")
-            font.family: "Open Sans Semibold"
-            font.pixelSize: 24
+            icon.source: "icons/equal.png"
+            icon.height: 30
+            icon.width: 30
 
             background: Rectangle {
                 implicitHeight: 60
